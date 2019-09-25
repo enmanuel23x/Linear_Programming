@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="assets/CSS/main.css">
+    <title>Document</title>
+</head>
+<body >
+            <h1>Problema de programacion lineal</h1>
+            <div class="input">
+                <div style="display: inline-block; text-align: left;">
+                    Numero de Variables:
+                    <select id="variables" class="basic-input">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4"selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    <br>
+                    Numero de Restricciones:
+                    <select id="restricciones" class="basic-input">
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4"selected>4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    
+                </div>
+                <br>
+                <button class="basic-button" onclick="Actualizar()">Actualizar</button>
+                <button class="basic-button" onclick="procesar()">Procesar</button>
+            </div>
+            <table id="tabla">
+	
+                    <thead>
+                      <tr id="head">
+                        <th>Recursos</th>
+                        <th>X1</th>
+                        <th>X2</th>
+                        <th>X3</th>
+                        <th>X4</th>
+                        <th>DISPONIBILIDAD</th>
+                      </tr>
+                  </thead>
+                  <tbody id="body">
+                     
+                  </tbody>
+                  <caption>Modelo Matematico</caption>
+                </table>
+    <script src="assets/JS/index.js"></script>
+    <script>
+    var html=""
+    function Actualizar(){
+        var variables=document.getElementById("variables").value;
+        html="<th>Recursos</th>"
+        for(i=0;i<variables;i++){
+            html+="<th>X"+(i+1)+"<span id='x"+(i+1)+"'></span></th>"
+        }
+        html+="<th>DISPONIBILIDAD</th>"
+        document.getElementById("head").innerHTML=html;
+        var restricciones=document.getElementById("restricciones").value;
+        html=""
+        for(i=0;i<restricciones;i++){
+            html+="<tr><td>R"+(i+1)+"</td>"
+            for(j=0;j<=variables;j++){
+                html+="<td><div contenteditable>0</div></td>"
+            }
+        }
+        html+="<tr><td>Funcion Objetivo (F.O.):</td>"
+            for(j=0;j<=variables-1;j++){
+                html+="<td><div contenteditable>0</div></td>"
+            }
+            html+="<td><div id='fo'>?</div></td>"
+        document.getElementById("body").innerHTML=html;
+    }
+
+    var tableArr = [];
+    function procesar(){
+        var table = document.getElementById('body');
+        tableArr = [];
+        var Arr = [];
+for (i = 0; i < table.rows.length; i++ ) {
+    Arr = [];
+    for ( j = 1; j <table.rows[0].cells.length; j++ ) {
+        Arr.push(((table.rows[i].cells[j].innerHTML).split(">")[1]).split("<")[0])
+    }
+    tableArr.push(Arr);
+}
+        console.log(tableArr)
+        resolver()
+    }
+    function resolver(){
+        var arr=[]
+        var vector=""
+        vector2=[]
+        for(i=0;i<tableArr.length-1;i++){
+            vector='';
+            for(j=0;j<tableArr[0].length-1;j++){
+                switch(j){
+                    case 0:
+                        vector+=tableArr[i][j]+'a'
+                    break;
+                    case 1:
+                        vector+=" + "+tableArr[i][j]+'b'
+                    break;
+                    case 2:
+                        vector+=" + "+tableArr[i][j]+'c'
+                    break;
+                    case 3:
+                        vector+="+"+tableArr[i][j]+'d'
+                    break;
+                    case 4:
+                        vector+=" + "+tableArr[i][j]+'e'
+                    break;
+                    case 5:
+                        vector+=" + "+tableArr[i][j]+'f'
+                    break;
+                    case 6:
+                        vector+=" + "+tableArr[i][j]+'g'
+                    break;
+                    case 7:
+                        vector+=" + "+tableArr[i][j]+'h'
+                    break;
+                }
+            }
+            
+            vector+=" <= "+tableArr[i][tableArr[0].length-1]
+            vector2.push(vector)
+        }
+        vector=""
+        for(j=0;j<tableArr[0].length-1;j++){
+                switch(j){
+                    case 0:
+                        vector+=tableArr[tableArr.length-1][j]+'a'
+                    break;
+                    case 1:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'b'
+                    break;
+                    case 2:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'c'
+                    break;
+                    case 3:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'d'
+                    break;
+                    case 4:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'e'
+                    break;
+                    case 5:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'f'
+                    break;
+                    case 6:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'g'
+                    break;
+                    case 7:
+                        vector+=" + "+tableArr[tableArr.length-1][j]+'h'
+                    break;
+                }
+                
+            }
+        var result = simplex.maximize(vector, vector2);
+        document.getElementById("fo").innerHTML=result.max
+        console.log(result)
+        if(result.a!=undefined){
+            document.getElementById("x1").innerHTML=":"+result.a
+        }
+        if(result.b!=undefined){
+            document.getElementById("x2").innerHTML=":"+result.b
+        }
+        if(result.c!=undefined){
+            document.getElementById("x3").innerHTML=":"+result.c
+        }
+        if(result.d!=undefined){
+            document.getElementById("x4").innerHTML=":"+result.d
+        }
+        if(result.e!=undefined){
+            document.getElementById("x5").innerHTML=":"+result.e
+        }
+        if(result.f!=undefined){
+            document.getElementById("x6").innerHTML=":"+result.f
+        }
+        if(result.g!=undefined){
+            document.getElementById("x7").innerHTML=":"+result.g
+        }
+        if(result.h!=undefined){
+            document.getElementById("x8").innerHTML=":"+result.h
+        }
+    }
+    var simplex = require('simplex-solver');
+    
+    /*
+    const SimpleSimplex = require('simple-simplex');
+ 
+// initialize a solver
+var sol={
+  objective: {
+  },
+  constraints: [
+  ],
+  optimizationType: 'max',
+}
+console.log(sol)
+    function resolvermax(){
+        console.log(sol)
+        const solver = new SimpleSimplex(sol);
+        console.log(solver)
+        // call the solve method with a method name
+        const result = solver.solve({
+            methodName: 'simplex',
+        });
+        // see the solution and meta data
+        console.log({
+            solution: result,
+            isOptimal: result.details.isOptimal,
+        });
+        document.getElementById("fo").innerHTML=result.solution.optimum
+    }
+    
+    var tableArr = [];
+    function resolver(){
+        var arr=[]
+        var vector=""
+        vector2=[]
+        for(i=0;i<tableArr.length-1;i++){
+            vector='{"namedVector":{';
+            for(j=0;j<tableArr[0].length-1;j++){
+                switch(j){
+                    case 0:
+                        vector+='"a":'+tableArr[i][j]
+                    break;
+                    case 1:
+                        vector+=',"b":'+tableArr[i][j]
+                    break;
+                    case 2:
+                        vector+=',"c":'+tableArr[i][j]
+                    break;
+                    case 3:
+                        vector+=',"d":'+tableArr[i][j]
+                    break;
+                    case 4:
+                        vector+=',"e":'+tableArr[i][j]
+                    break;
+                    case 5:
+                        vector+=',"f":'+tableArr[i][j]
+                    break;
+                    case 6:
+                        vector+=',"g":'+tableArr[i][j]
+                    break;
+                    case 7:
+                        vector+=',"h":'+tableArr[i][j]
+                    break;
+                }
+            }
+            
+            vector+='},"constraint": '+'"<="'+',"constant":'+tableArr[i][tableArr[0].length-1]+ '}'
+            vector2.push(JSON.parse(vector))
+        
+        }
+        vector=""
+        for(j=0;j<tableArr[0].length-1;j++){
+                switch(j){
+                    case 0:
+                        vector+='{"a":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 1:
+                        vector+=',"b":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 2:
+                        vector+=',"c":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 3:
+                        vector+=',"d":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 4:
+                        vector+=',"e":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 5:
+                        vector+=',"f":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 6:
+                        vector+=',"g":'+tableArr[tableArr.length-1][j]
+                    break;
+                    case 7:
+                        vector+=',"h":'+tableArr[tableArr.length-1][j]
+                    break;
+                }
+            }
+        console.log(JSON.parse(vector+'}'))
+        sol.objective=JSON.parse(vector+'}')
+        sol.constraints=vector2
+        resolvermax()
+    }
+    function procesar(){
+        var table = document.getElementById('body');
+        tableArr = [];
+        var Arr = [];
+for (i = 0; i < table.rows.length; i++ ) {
+    Arr = [];
+    for ( j = 1; j <table.rows[0].cells.length; j++ ) {
+        Arr.push(((table.rows[i].cells[j].innerHTML).split(">")[1]).split("<")[0])
+    }
+    tableArr.push(Arr);
+}
+        console.log(tableArr)
+        resolver()
+    }*/
+    </script>
+</body>
+</html>

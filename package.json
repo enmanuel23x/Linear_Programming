@@ -1,0 +1,16 @@
+{
+  "name": "programacion-lineal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron  src/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^6.0.10",
+    "simple-simplex": "^1.0.1",
+    "simplex-solver": "0.0.3"
+  }
+}

@@ -1,0 +1,51 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: white;
+    background-color: rgb(50, 50, 50);
+    text-align: center;
+    padding: 10px;
+  }
+  
+  table, th, td {
+    text-align: center;
+    border: solid 1px white;
+    padding: 10px;
+  }
+  
+  table {
+      border-collapse:collapse;
+      margin: 0 auto;
+  }
+  
+  caption {
+    font-size: 16px;
+    font-weight: bold;
+    padding-top: 5px;
+  }
+  .basic-input{
+    background-color: white;
+    color: rgb(50,50,50);
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .input{
+      text-align: center;
+      margin: 0 auto;
+  }
+  .basic-button{
+    background-color: white;
+    color: rgb(50,50,50);
+    border-radius: 8px;
+    font-size: 18px;
+  }
+  option{
+      border-radius: 8px;
+  }
+  h1{
+    font-size: 32px;
+    line-height: 60px;
+    color: white;
+  }
