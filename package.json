@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^6.0.10",
+    "electron": "^7.2.4",
     "simple-simplex": "^1.0.1",
     "simplex-solver": "0.0.3"
   }
